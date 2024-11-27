@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World History Quiz: World History</title>
+    <style>
+        /* Styling for the quiz */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        #quiz-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #question-container {
+            margin-top: 20px;
+        }
+
+        .choice-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .choice-button:hover {
+            background: #0056b3;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 5px solid #ccc;
+        }
+
+        #next-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #next-button:disabled {
+            background: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>World History Quiz: It's a Quiz about History</h1>
+        <div id="question-container"></div>
+        <button id="next-button">Next Question</button>
+        <div id="feedback"></div>
+    </div>
+    <script>
+        // JavaScript for quiz functionality
+        const questions = [
+{
+    question: "What impact did the Treaty of Versailles have on Germany after World War I?",
+    choices: [
+        "It strengthened Germany's economy",
+        "It imposed heavy reparations and territorial losses",
+        "It established a democratic government in Germany",
+        "It resolved tensions between Germany and France"
+    ],
+    correctAnswer: 1,
+    explanation: "The Treaty of Versailles imposed severe reparations, territorial losses, and military restrictions on Germany, contributing to economic hardship and political instability."
+},
+{
+    question: "How did the concept of total war impact civilian populations during World War I?",
+    choices: [
+        "Civilian areas were completely unaffected",
+        "Civilians were targeted and resources were mobilized for war efforts",
+        "Civilians were conscripted into armies for the first time",
+        "There was no distinction between combatants and non-combatants"
+    ],
+    correctAnswer: 1,
+    explanation: "Total war blurred the lines between military and civilian roles, with civilians contributing to the war effort through labor and often becoming targets in warfare."
+},
+{
+    question: "Why did the United States reject the League of Nations?",
+    choices: [
+        "The U.S. opposed joining international organizations",
+        "The Senate feared it would entangle the U.S. in future conflicts",
+        "The League was dominated by communist nations",
+        "The League excluded Germany and Japan"
+    ],
+    correctAnswer: 1,
+    explanation: "The U.S. Senate rejected the League of Nations due to concerns it would entangle the country in future foreign conflicts and limit its sovereignty."
+},
+{
+    question: "What role did propaganda play in totalitarian regimes during the 1930s?",
+    choices: [
+        "It was used to promote democracy",
+        "It enforced state control over media and shaped public opinion",
+        "It encouraged dissent against authoritarian rule",
+        "It was limited to military recruitment efforts"
+    ],
+    correctAnswer: 1,
+    explanation: "Totalitarian regimes like Nazi Germany and Stalinist USSR used propaganda to control media, spread ideology, and suppress opposition."
+},
+{
+    question: "What was the significance of the Munich Agreement of 1938?",
+    choices: [
+        "It ended World War I",
+        "It allowed Nazi Germany to annex the Sudetenland",
+        "It strengthened alliances between democratic nations",
+        "It triggered the start of World War II"
+    ],
+    correctAnswer: 1,
+    explanation: "The Munich Agreement allowed Hitler to annex the Sudetenland in hopes of avoiding war, a policy known as appeasement."
+},
+{
+    question: "What factor contributed most to Japan's attack on Pearl Harbor in 1941?",
+    choices: [
+        "U.S. sanctions limiting Japan’s access to resources",
+        "A direct invasion of Japanese territories by the U.S.",
+        "Germany’s alliance with Japan",
+        "The signing of the Treaty of Versailles"
+    ],
+    correctAnswer: 0,
+    explanation: "Japan attacked Pearl Harbor in response to U.S. sanctions on oil and other resources critical to its expansionist efforts."
+},
+{
+    question: "How did World War II contribute to the decolonization movement after 1945?",
+    choices: [
+        "Colonial powers voluntarily freed their colonies",
+        "The war weakened European powers, making it difficult to maintain colonies",
+        "Colonial subjects opposed democratic reforms",
+        "The League of Nations mandated independence for all colonies"
+    ],
+    correctAnswer: 1,
+    explanation: "World War II left European colonial powers economically and militarily weakened, fueling independence movements in Asia and Africa."
+},
+{
+    question: "What was the significance of the Yalta Conference during World War II?",
+    choices: [
+        "It planned the D-Day invasion",
+        "It set the terms for Japan’s surrender",
+        "It decided the post-war division of Europe",
+        "It established the League of Nations"
+    ],
+    correctAnswer: 2,
+    explanation: "At the Yalta Conference, the Allies agreed on dividing Germany into occupation zones and set plans for post-war Europe."
+},
+{
+    question: "Why was the establishment of Israel in 1948 controversial?",
+    choices: [
+        "It was opposed by the United Nations",
+        "It displaced Palestinian populations",
+        "It marked the end of British colonial rule in Asia",
+        "It resulted in the immediate start of the Cold War"
+    ],
+    correctAnswer: 1,
+    explanation: "The creation of Israel displaced many Palestinian Arabs, leading to ongoing conflict in the Middle East."
+},
+{
+    question: "What was the primary aim of the policy of détente during the Cold War?",
+    choices: [
+        "To escalate the arms race",
+        "To improve relations between the U.S. and the Soviet Union",
+        "To end the Vietnam War",
+        "To promote democracy in Eastern Europe"
+    ],
+    correctAnswer: 1,
+    explanation: "Détente aimed to ease tensions between the U.S. and the Soviet Union during the 1970s, promoting arms control agreements and diplomatic relations."
+},
+{
+    question: "What economic strategy characterized Mao Zedong’s Great Leap Forward in China?",
+    choices: [
+        "Privatization of farms",
+        "Rapid industrialization and collectivization",
+        "Export-led growth",
+        "Introduction of free-market reforms"
+    ],
+    correctAnswer: 1,
+    explanation: "The Great Leap Forward aimed to rapidly industrialize China and collectivize agriculture, but it led to economic disaster and famine."
+},
+{
+    question: "What role did the Berlin Wall play during the Cold War?",
+    choices: [
+        "It symbolized Soviet control of all of Germany",
+        "It divided communist East Berlin from capitalist West Berlin",
+        "It was built to promote free trade",
+        "It marked the end of World War II"
+    ],
+    correctAnswer: 1,
+    explanation: "The Berlin Wall separated communist East Berlin and capitalist West Berlin, symbolizing the division of the Cold War."
+},
+{
+    question: "Which two nations were most influential in supporting decolonization movements?",
+    choices: [
+        "Germany and Japan",
+        "The United States and the Soviet Union",
+        "China and France",
+        "Britain and Spain"
+    ],
+    correctAnswer: 1,
+    explanation: "The U.S. and Soviet Union supported decolonization to gain influence in newly independent nations during the Cold War."
+},
+{
+    question: "Why was the Cuban Missile Crisis a significant event in the Cold War?",
+    choices: [
+        "It marked the beginning of the arms race",
+        "It was the closest the world came to nuclear war",
+        "It ended the Soviet Union’s influence in Latin America",
+        "It resulted in the creation of NATO"
+    ],
+    correctAnswer: 1,
+    explanation: "The Cuban Missile Crisis in 1962 brought the U.S. and Soviet Union to the brink of nuclear war over Soviet missiles in Cuba."
+},
+{
+    question: "What was one major consequence of globalization in the late 20th century?",
+    choices: [
+        "The decline of international trade",
+        "Increased economic interdependence",
+        "The collapse of capitalism",
+        "The return to isolationism"
+    ],
+    correctAnswer: 1,
+    explanation: "Globalization in the late 20th century led to increased economic interdependence, as nations became more connected through trade and technology."
+},
+{
+    question: "What caused the partition of India in 1947?",
+    choices: [
+        "Religious conflicts between Hindus and Muslims",
+        "Colonial treaties with China",
+        "Support from the Soviet Union",
+        "Opposition to Gandhi’s leadership"
+    ],
+    correctAnswer: 0,
+    explanation: "India was partitioned into India and Pakistan due to religious conflicts between Hindus and Muslims after gaining independence from Britain."
+},
+{
+    question: "Which organization was created to manage oil production and prices globally?",
+    choices: [
+        "NATO",
+        "OPEC",
+        "The European Union",
+        "The World Bank"
+    ],
+    correctAnswer: 1,
+    explanation: "The Organization of the Petroleum Exporting Countries (OPEC) was founded to regulate oil production and prices among member nations."
+},
+{
+    question: "What was a key outcome of the Camp David Accords in 1978?",
+    choices: [
+        "A peace agreement between Israel and Egypt",
+        "The end of apartheid in South Africa",
+        "A trade deal between the U.S. and the Soviet Union",
+        "The formation of the European Union"
+    ],
+    correctAnswer: 0,
+    explanation: "The Camp David Accords brokered peace between Israel and Egypt, with Egypt recognizing Israel as a nation."
+},
+{
+    question: "Why was the fall of the Soviet Union significant for global politics?",
+    choices: [
+        "It ended World War II",
+        "It marked the collapse of communism in Eastern Europe",
+        "It unified Germany under Soviet control",
+        "It started the Cold War"
+    ],
+    correctAnswer: 1,
+    explanation: "The fall of the Soviet Union in 1991 ended the Cold War and led to the collapse of communist regimes in Eastern Europe."
+},{
+    question: "What technological advancement revolutionized global communication in the 1990s?",
+    choices: [
+        "The steam engine",
+        "The printing press",
+        "The Internet",
+        "Television"
+    ],
+    correctAnswer: 2,
+    explanation: "The Internet became widely accessible in the 1990s, revolutionizing global communication, commerce, and information exchange."
+},
+{
+    question: "What was the significance of the Maastricht Treaty in 1992?",
+    choices: [
+        "It established the United Nations",
+        "It created the European Union",
+        "It ended apartheid in South Africa",
+        "It resolved conflicts in the Middle East"
+    ],
+    correctAnswer: 1,
+    explanation: "The Maastricht Treaty formally established the European Union (EU), promoting economic and political integration among member states."
+},
+{
+    question: "Which event marked the start of the war on terror in the 21st century?",
+    choices: [
+        "The invasion of Iraq",
+        "The 9/11 terrorist attacks",
+        "The fall of the Berlin Wall",
+        "The signing of the Kyoto Protocol"
+    ],
+    correctAnswer: 1,
+    explanation: "The 9/11 terrorist attacks on the United States in 2001 led to the U.S. launching the war on terror, including wars in Afghanistan and Iraq."
+},
+{
+    question: "What was the goal of the Paris Agreement signed in 2015?",
+    choices: [
+        "To establish a global trade pact",
+        "To combat climate change by reducing emissions",
+        "To promote nuclear disarmament",
+        "To create a new military alliance"
+    ],
+    correctAnswer: 1,
+    explanation: "The Paris Agreement aimed to combat climate change by reducing global greenhouse gas emissions and limiting global warming."
+},
+{
+    question: "What role did women play in the global workforce during World War II?",
+    choices: [
+        "They were excluded from the workforce",
+        "They took on industrial and military roles traditionally held by men",
+        "They only worked in domestic settings",
+        "They served exclusively as nurses"
+    ],
+    correctAnswer: 1,
+    explanation: "During World War II, women entered industrial and military roles, significantly contributing to the war effort while men were on the frontlines."
+}
+
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionContainer = document.getElementById("question-container");
+        const feedbackContainer = document.getElementById("feedback");
+        const nextButton = document.getElementById("next-button");
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            questionContainer.innerHTML = `
+                <h2>${question.question}</h2>
+                ${question.choices.map((choice, index) => `
+                    <button class="choice-button" data-choice="${index}">${choice}</button>
+                `).join('')}
+            `;
+            feedbackContainer.innerHTML = "";
+            nextButton.style.display = "none";
+
+            const choiceButtons = document.querySelectorAll(".choice-button");
+            choiceButtons.forEach(button => {
+                button.addEventListener("click", (e) => {
+                    const userAnswer = parseInt(e.target.getAttribute("data-choice"));
+                    checkAnswer(userAnswer);
+                });
+            });
+        }
+
+        function checkAnswer(userAnswer) {
+            const question = questions[currentQuestion];
+            const isCorrect = userAnswer === question.correctAnswer;
+            feedbackContainer.innerHTML = `
+                <p>${isCorrect ? "Correct!" : "Incorrect."}</p>
+                <p>${isCorrect ? "" : `The correct answer is: ${question.choices[question.correctAnswer]}`}</p>
+                <p>${question.explanation}</p>
+            `;
+            if (isCorrect) score++;
+            nextButton.style.display = "block";
+
+            // Disable buttons after selecting an answer
+            const choiceButtons = document.querySelectorAll(".choice-button");
+            choiceButtons.forEach(button => button.disabled = true);
+        }
+
+        nextButton.addEventListener("click", () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                questionContainer.innerHTML = `
+                    <h2>Quiz Complete!</h2>
+                    <p>Your Score: ${score} / ${questions.length}</p>
+                `;
+                nextButton.style.display = "none";
+            }
+        });
+
+        // Load the first question on startup
+        loadQuestion();
+    </script>
+</body>
+</html>
